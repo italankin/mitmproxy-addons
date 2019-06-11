@@ -9,7 +9,7 @@ $ mitmproxy \
     -s showurl.py
 ```
 
-Or:
+Or while running:
 
 ```
 : set scripts=replayserver.py
