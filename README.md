@@ -37,3 +37,9 @@ Options:
 
 * `sleep` - delay client requests by this amount of time (milliseconds)
 * `sleep_filter` - delay only flows which match the filter
+
+## offline.py
+
+Options:
+
+* `offline` - kill all HTTP CONNECT requests
