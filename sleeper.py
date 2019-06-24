@@ -1,6 +1,5 @@
 import time
 
-from mitmproxy import http
 from mitmproxy import ctx
 from mitmproxy import flowfilter
 from mitmproxy.script import concurrent
@@ -33,6 +32,7 @@ class Sleeper:
         delay = ctx.options.sleep
         if delay > 0 and flowfilter.match(self.filter, flow):
             time.sleep(delay / 1000)
+
 
 addons = [
     Sleeper()

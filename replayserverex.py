@@ -1,14 +1,13 @@
 import typing
-import urwid
 
+import mitmproxy.types
 from mitmproxy import command
-from mitmproxy import flow
 from mitmproxy import ctx
 from mitmproxy import exceptions
+from mitmproxy import flow
 from mitmproxy import io
 from mitmproxy.addons import serverplayback
 from mitmproxy.tools.console import overlay
-import mitmproxy.types
 
 
 class ReplayServerEx:
@@ -18,10 +17,10 @@ class ReplayServerEx:
             Replay server responses from flows.
         """
         addon = self._find_addon()
-        for i in flows:
-            if i.response:
-                l = addon.flowmap.setdefault(addon._hash(i), [])
-                l.append(i)
+        for f in flows:
+            if f.response:
+                l = addon.flowmap.setdefault(addon._hash(f), [])
+                l.append(f)
         ctx.master.addons.trigger("update", [])
         ctx.log.alert("Added %d flows." % len(flows))
 
@@ -73,8 +72,10 @@ class ReplayServerEx:
             raise ValueError("Cannot find addon 'serverplayback'")
         return addon
 
+
 class FlowChoice(str):
     pass
+
 
 addons = [
     ReplayServerEx()

@@ -1,4 +1,3 @@
-from mitmproxy import http
 from mitmproxy import ctx
 
 
@@ -21,6 +20,7 @@ class Offline:
     def http_connect(self, flow):
         if self.offline:
             flow.kill()
+
 
 addons = [
     Offline()

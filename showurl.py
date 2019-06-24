@@ -1,8 +1,6 @@
-import typing
-
 from mitmproxy import command
 from mitmproxy import flow
-import mitmproxy.types
+
 
 class ShowUrl:
     @command.command("view.showurl")
@@ -11,6 +9,7 @@ class ShowUrl:
             Show flow's request URL.
         """
         return flow.request.url
+
 
 addons = [
     ShowUrl()
