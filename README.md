@@ -36,7 +36,7 @@ Commands:
 Options:
 
 * `sleep` - delay client requests by this amount of time (milliseconds)
-* `sleep_filter` - delay only flows which match the filter
+* `sleep_filter` - delay only flows which match the filter ([filter expressions](https://docs.mitmproxy.org/stable/concepts-filters/) supported)
 
 ## offline.py
 
