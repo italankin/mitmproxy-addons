@@ -42,4 +42,5 @@ Options:
 
 Options:
 
-* `offline` - kill all HTTP CONNECT requests
+* `offline` - kill all flows
+* `offline_filter` - kill only flows matching the filter ([filter expressions](https://docs.mitmproxy.org/stable/concepts-filters/) supported)
