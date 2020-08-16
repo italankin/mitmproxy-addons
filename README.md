@@ -15,7 +15,7 @@ $ mitmproxy \
 Or while running:
 
 ```
-: set scripts=replayserver.py
+: set scripts=replayserverex.py
 ```
 
 Or via [config.yaml](https://docs.mitmproxy.org/stable/concepts-options/):
