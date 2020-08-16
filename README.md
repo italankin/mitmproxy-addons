@@ -25,6 +25,14 @@ Commands:
 * `replay.server.file.add` - add flows to server playback from file
 * `replay.server.list` - show server playback buffer
 
+## replayservermatchers.py
+
+Commands:
+
+* `replay.server.matchers.add` - add a matcher for server playback
+* `replay.server.matchers.clear` - clear all matchers
+* `replay.server.matchers.list` - show matchers list
+
 ## showurl.py
 
 Commands:

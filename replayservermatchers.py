@@ -1,0 +1,77 @@
+import os
+
+from mitmproxy import command, ctx, http, types, flowfilter, exceptions
+from mitmproxy.tools.console import overlay
+
+
+class ReplayServerMatchers:
+    def __init__(self):
+        self.matchermap = {}
+        pass
+
+    @command.command("replay.server.matchers.add")
+    def add(self, filter_expr: str, code: int, path: types.Path):
+        """
+            Add a new matcher for server playback
+        """
+        filt = flowfilter.parse(filter_expr)
+        if not filt:
+            raise exceptions.CommandError("invalid flow filter: %s" % filter_expr)
+        if not os.path.exists(path) or not os.path.isfile(path):
+            raise exceptions.CommandError("file '%s' does not exists or is not a file" % path)
+        self.matchermap[filter_expr] = FlowMatcher(filt, code, path)
+        ctx.log.alert("Added 1 matcher")
+
+    @command.command("replay.server.matchers.clear")
+    def clear(self):
+        """
+            Remove all matchers
+        """
+        size = len(self.matchermap)
+        self.matchermap.clear()
+        ctx.log.alert("Removed %s matchers" % size)
+
+    @command.command("replay.server.matchers.list")
+    def list(self):
+        """
+            TODO
+        """
+        if len(self.matchermap) == 0:
+            ctx.log.alert("No matchers")
+            return
+
+        choices = []
+        for (key, matcher) in self.matchermap.items():
+            choices.append("%s | %s | %s" % (key, matcher.code, matcher.path))
+
+        def callback(opt):
+            pass
+
+        ctx.master.overlay(
+            overlay.Chooser(ctx.master, "Matchers", choices, "", callback)
+        )
+
+    def response(self, flow: http.HTTPFlow):
+        for matcher in self.matchermap.values():
+            if flowfilter.match(matcher.filt, flow):
+                with open(matcher.path, "rt", encoding="utf8") as f:
+                    try:
+                        txt = f.read()
+                    except IOError as e:
+                        raise ValueError("can not read file '%s': %s" % (matcher.path, e))
+                flow.response.status_code = matcher.code
+                flow.response.set_text(txt)
+                flow.is_replay = "response"
+                break
+
+
+class FlowMatcher:
+    def __init__(self, filt: flowfilter.TFilter, code: int, path: types.Path):
+        self.filt = filt
+        self.code = code
+        self.path = path
+
+
+addons = [
+    ReplayServerMatchers()
+]
