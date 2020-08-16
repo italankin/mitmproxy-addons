@@ -19,6 +19,8 @@ Or while running:
 
 ## replayserverex.py
 
+Extensions for built in ServerPlayback addon.
+
 Commands:
 
 * `replay.server.add` - add flows to server playback
@@ -26,6 +28,14 @@ Commands:
 * `replay.server.list` - show server playback buffer
 
 ## replayservermatchers.py
+
+Addons allows to add a [filter](https://docs.mitmproxy.org/stable/concepts-filters/) and for any flow matching it status code and contents of the response will be replaced.
+
+For example, to replace any response from `google.com` with a status code of `200` and contents from `response.json`:
+
+```
+: replay.server.matchers.add google.com 200 response.json
+```
 
 Commands:
 
