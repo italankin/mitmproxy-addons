@@ -53,7 +53,7 @@ class ReplayServerMatchers:
 
     def response(self, flow: http.HTTPFlow):
         for matcher in self.matchermap.values():
-            if flowfilter.match(matcher.filt, flow):
+            if matcher.match(flow):
                 with open(matcher.path, "rt", encoding="utf8") as f:
                     try:
                         txt = f.read()
@@ -70,6 +70,9 @@ class FlowMatcher:
         self.filt = filt
         self.code = code
         self.path = path
+
+    def match(self, flow):
+        return flowfilter.match(self.filt, flow)
 
 
 addons = [
