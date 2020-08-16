@@ -9,8 +9,7 @@ Run `mitmproxy` with one or more addons:
 ```sh
 $ mitmproxy \
     -s replayserverex.py \
-    -s sleeper.py \
-    -s showurl.py
+    -s sleeper.py
 ```
 
 Or while running:
@@ -55,12 +54,6 @@ Commands:
 * `replay.server.matchers.add` - add a matcher for server playback
 * `replay.server.matchers.clear` - clear all matchers
 * `replay.server.matchers.list` - show matchers list
-
-## showurl.py
-
-Commands:
-
-* `view.showurl` - show the URL of the flow
 
 ## sleeper.py
 
