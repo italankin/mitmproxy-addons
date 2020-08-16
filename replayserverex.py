@@ -10,18 +10,25 @@ from mitmproxy.addons import serverplayback
 from mitmproxy.tools.console import overlay
 
 
+def _find_addon() -> serverplayback.ServerPlayback:
+    addon = ctx.master.addons.get("serverplayback")
+    if not addon:
+        raise ValueError("Cannot find addon 'serverplayback'")
+    return addon
+
+
 class ReplayServerEx:
     @command.command("replay.server.add")
     def add_flows(self, flows: typing.Sequence[flow.Flow]) -> None:
         """
             Replay server responses from flows.
         """
-        addon = self._find_addon()
+        addon = _find_addon()
         updated = 0
         for f in flows:
             if f.response:
-                l = addon.flowmap.setdefault(addon._hash(f), [])
-                l.append(f)
+                flowlist = addon.flowmap.setdefault(addon._hash(f), [])
+                flowlist.append(f)
                 updated = updated + 1
         ctx.master.addons.trigger("update", [])
         ctx.log.alert("Added %d flows." % updated)
@@ -43,7 +50,7 @@ class ReplayServerEx:
             Show server responses list.
         """
         recorded_flows = []
-        for flows in self._find_addon().flowmap.values():
+        for flows in _find_addon().flowmap.values():
             for f in flows:
                 recorded_flows.append(f)
 
@@ -58,8 +65,7 @@ class ReplayServerEx:
             choices.append(c)
 
         def callback(opt):
-            flow = opt.flow
-            if flow not in ctx.master.view:
+            if opt.flow not in ctx.master.view:
                 ctx.log.alert("Not found.")
             else:
                 ctx.master.view.focus.flow = opt.flow
@@ -68,14 +74,11 @@ class ReplayServerEx:
             overlay.Chooser(ctx.master, "Flows", choices, "", callback)
         )
 
-    def _find_addon(self) -> serverplayback.ServerPlayback:
-        addon = ctx.master.addons.get("serverplayback")
-        if addon == None:
-            raise ValueError("Cannot find addon 'serverplayback'")
-        return addon
-
 
 class FlowChoice(str):
+    """
+        A str subclass which holds 'flow' instance
+    """
     pass
 
 
