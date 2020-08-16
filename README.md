@@ -1,3 +1,7 @@
+# mitmproxy-addons
+
+Some addons which can be used for developing and testing client-server applications.
+
 # Usage
 
 Run `mitmproxy` with one or more addons:
@@ -13,6 +17,15 @@ Or while running:
 
 ```
 : set scripts=replayserver.py
+```
+
+Or via [config.yaml](https://docs.mitmproxy.org/stable/concepts-options/):
+
+```
+scripts: [
+    '~/mitmproxy-addons/offline.py',
+    '~/mitmproxy-addons/sleeper.py'
+]
 ```
 
 # Addons
@@ -51,14 +64,18 @@ Commands:
 
 ## sleeper.py
 
+Adds a delay before sending a request.
+
 Options:
 
 * `sleep` - delay client requests by this amount of time (milliseconds)
-* `sleep_filter` - delay only flows which match the filter ([filter expressions](https://docs.mitmproxy.org/stable/concepts-filters/) supported)
+* `sleep_filter` - delay only flows which match the [filter](https://docs.mitmproxy.org/stable/concepts-filters/)
 
 ## offline.py
+
+Simulate offline mode by killing all (or matching a filter) requests.
 
 Options:
 
 * `offline` - kill all flows
-* `offline_filter` - kill only flows matching the filter ([filter expressions](https://docs.mitmproxy.org/stable/concepts-filters/) supported)
+* `offline_filter` - kill only flows matching the [filter](https://docs.mitmproxy.org/stable/concepts-filters/)
