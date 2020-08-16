@@ -5,12 +5,11 @@ from mitmproxy import flowfilter
 from mitmproxy.exceptions import OptionsError
 
 
-matchall = flowfilter.parse(".")
-
 class Offline:
     def __init__(self):
         self.offline = False
-        self.filter: Optional[flowfilter.TFilter] = matchall
+        self.matchall = flowfilter.parse(".")
+        self.filter: Optional[flowfilter.TFilter] = self.matchall
 
     def load(self, loader):
         loader.add_option(
@@ -29,7 +28,7 @@ class Offline:
                 self.offline = value
         if "offline_filter" in updates:
             filt_str = ctx.options.offline_filter
-            filt = matchall if not filt_str else flowfilter.parse(filt_str)
+            filt = self.matchall if not filt_str else flowfilter.parse(filt_str)
             if not filt:
                 raise OptionsError("Invalid filter expression: %s" % filt_str)
             self.filter = filt
