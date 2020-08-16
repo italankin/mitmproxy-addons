@@ -17,12 +17,14 @@ class ReplayServerEx:
             Replay server responses from flows.
         """
         addon = self._find_addon()
+        updated = 0
         for f in flows:
             if f.response:
                 l = addon.flowmap.setdefault(addon._hash(f), [])
                 l.append(f)
+                updated = updated + 1
         ctx.master.addons.trigger("update", [])
-        ctx.log.alert("Added %d flows." % len(flows))
+        ctx.log.alert("Added %d flows." % updated)
 
     @command.command("replay.server.file.add")
     def load_file(self, path: mitmproxy.types.Path) -> None:
