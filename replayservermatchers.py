@@ -34,7 +34,7 @@ class ReplayServerMatchers:
     @command.command("replay.server.matchers.list")
     def list(self):
         """
-            TODO
+            Show added matchers
         """
         if len(self.matchermap) == 0:
             ctx.log.alert("No matchers")
