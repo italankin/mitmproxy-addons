@@ -41,7 +41,7 @@ Commands:
 
 ## replayservermatchers.py
 
-Addons allows to add a [filter](https://docs.mitmproxy.org/stable/concepts-filters/) and for any flow matching it status code and contents of the response will be replaced.
+This addon allows to add a [filter](https://docs.mitmproxy.org/stable/concepts-filters/) and for any flow matching it status code and contents of the response will be replaced.
 
 For example, to replace any response from `google.com` with a status code of `200` and contents from `response.json`:
 
