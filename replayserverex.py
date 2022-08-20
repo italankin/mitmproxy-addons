@@ -1,4 +1,4 @@
-import typing
+from collections.abc import Sequence
 
 import mitmproxy.types
 from mitmproxy import command
@@ -19,7 +19,7 @@ def _find_addon() -> serverplayback.ServerPlayback:
 
 class ReplayServerEx:
     @command.command("replay.server.add")
-    def add_flows(self, flows: typing.Sequence[flow.Flow]) -> None:
+    def add_flows(self, flows: Sequence[flow.Flow]) -> None:
         """
             Replay server responses from flows.
         """
