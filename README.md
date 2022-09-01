@@ -20,7 +20,7 @@ Or while running:
 
 Or via [config.yaml](https://docs.mitmproxy.org/stable/concepts-options/):
 
-```
+```yaml
 scripts: [
     '~/mitmproxy-addons/offline.py',
     '~/mitmproxy-addons/sleeper.py'
@@ -29,7 +29,7 @@ scripts: [
 
 # Addons
 
-## replayserverex.py
+## [`replayserverex.py`](./replayserverex.py)
 
 Extensions for built in ServerPlayback addon.
 
@@ -39,7 +39,7 @@ Commands:
 * `replay.server.file.add` - add flows to server playback from file
 * `replay.server.list` - show server playback buffer
 
-## replayservermatchers.py
+## [`replayservermatchers.py`](./replayservermatchers.py)
 
 This addon allows to add a [filter](https://docs.mitmproxy.org/stable/concepts-filters/) and for any flow matching it status code and contents of the response will be replaced.
 
@@ -55,7 +55,7 @@ Commands:
 * `replay.server.matchers.clear` - clear all matchers
 * `replay.server.matchers.list` - show matchers list
 
-## sleeper.py
+## [`sleeper.py`](./sleeper.py)
 
 Adds a delay before sending a request.
 
@@ -64,7 +64,7 @@ Options:
 * `sleep` - delay client requests by this amount of time (milliseconds)
 * `sleep_filter` - delay only flows which match the [filter](https://docs.mitmproxy.org/stable/concepts-filters/)
 
-## offline.py
+## [`offline.py`](./offline.py)
 
 Simulate offline mode by killing all (or matching a filter) requests.
 
