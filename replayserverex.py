@@ -5,6 +5,7 @@ from mitmproxy import command
 from mitmproxy import ctx
 from mitmproxy import exceptions
 from mitmproxy import flow
+from mitmproxy import hooks
 from mitmproxy import io
 from mitmproxy.addons import serverplayback
 from mitmproxy.tools.console import overlay
@@ -30,7 +31,7 @@ class ReplayServerEx:
                 flowlist = addon.flowmap.setdefault(addon._hash(f), [])
                 flowlist.append(f)
                 updated = updated + 1
-        ctx.master.addons.trigger("update", [])
+        ctx.master.addons.trigger(hooks.UpdateHook([]))
         ctx.log.alert("Added %d flows." % updated)
 
     @command.command("replay.server.file.add")
