@@ -19,21 +19,6 @@ def _find_addon() -> serverplayback.ServerPlayback:
 
 
 class ReplayServerEx:
-    @command.command("replay.server.add")
-    def add_flows(self, flows: Sequence[flow.Flow]) -> None:
-        """
-            Replay server responses from flows.
-        """
-        addon = _find_addon()
-        updated = 0
-        for f in flows:
-            if f.response:
-                flowlist = addon.flowmap.setdefault(addon._hash(f), [])
-                flowlist.append(f)
-                updated = updated + 1
-        ctx.master.addons.trigger(hooks.UpdateHook([]))
-        ctx.log.alert("Added %d flows." % updated)
-
     @command.command("replay.server.file.add")
     def load_file(self, path: mitmproxy.types.Path) -> None:
         """
