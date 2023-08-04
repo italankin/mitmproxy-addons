@@ -35,7 +35,6 @@ Extensions for built in ServerPlayback addon.
 
 Commands:
 
-* `replay.server.add` - add flows to server playback
 * `replay.server.file.add` - add flows to server playback from file
 * `replay.server.list` - show server playback buffer
 
