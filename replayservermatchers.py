@@ -1,6 +1,8 @@
+import logging
 import os
 
 from mitmproxy import command, ctx, http, types, flowfilter, exceptions
+from mitmproxy.log import ALERT
 from mitmproxy.tools.console import overlay
 
 
@@ -20,7 +22,7 @@ class ReplayServerMatchers:
         if not os.path.exists(path) or not os.path.isfile(path):
             raise exceptions.CommandError("file '%s' does not exists or is not a file" % path)
         self.matchermap[filter_expr] = FlowMatcher(filt, code, path)
-        ctx.log.alert("Added 1 matcher")
+        logging.getLogger().log(ALERT, "Added 1 matcher")
 
     @command.command("replay.server.matchers.clear")
     def clear(self):
@@ -29,7 +31,7 @@ class ReplayServerMatchers:
         """
         size = len(self.matchermap)
         self.matchermap.clear()
-        ctx.log.alert("Removed %s matchers" % size)
+        logging.getLogger().log(ALERT, f"Removed {size} matchers")
 
     @command.command("replay.server.matchers.list")
     def list(self):
@@ -37,14 +39,14 @@ class ReplayServerMatchers:
             Show added matchers
         """
         if len(self.matchermap) == 0:
-            ctx.log.alert("No matchers")
+            logging.getLogger().log(ALERT, "No matchers")
             return
 
         choices = []
         for (key, matcher) in self.matchermap.items():
             choices.append("%s | %s | %s" % (key, matcher.code, matcher.path))
 
-        def callback(opt):
+        def callback(_):
             pass
 
         ctx.master.overlay(

@@ -3,17 +3,19 @@ from typing import Optional
 
 from mitmproxy import ctx
 from mitmproxy import flowfilter
-from mitmproxy.script import concurrent
 from mitmproxy.exceptions import OptionsError
-
+from mitmproxy.flow import Flow
+from mitmproxy.optmanager import OptManager
+from mitmproxy.script import concurrent
 
 matchall = flowfilter.parse(".")
+
 
 class Sleeper:
     def __init__(self):
         self.filter: Optional[flowfilter.TFilter] = matchall
 
-    def load(self, loader):
+    def load(self, loader: OptManager):
         loader.add_option(
             "sleep", Optional[int], None,
             "Delay client requests (milliseconds)",
@@ -23,7 +25,7 @@ class Sleeper:
             "Apply delay to flows which match the filter"
         )
 
-    def configure(self, updates):
+    def configure(self, updates: set[str]):
         if "sleep" in updates:
             sleep = ctx.options.sleep
             if sleep and sleep < 0:
@@ -36,7 +38,7 @@ class Sleeper:
             self.filter = filt
 
     @concurrent
-    def request(self, flow):
+    def request(self, flow: Flow):
         delay = ctx.options.sleep
         if delay and delay > 0 and flowfilter.match(self.filter, flow):
             time.sleep(delay / 1000)
